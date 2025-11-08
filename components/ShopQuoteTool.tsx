@@ -118,14 +118,25 @@ export default function ShopQuoteTool() {
     if (color === 'premium') total *= 1.15
     let note = 'Includes concrete and metal building.'
     const addons: string[] = []
+
     if (walkDoors.length > 0) {
-      const walkSizes = [...new Set(walkDoors.map((d) => d.size))].join(', ')
+      const walkSizesArr: string[] = []
+      walkDoors.forEach(d => {
+        if (!walkSizesArr.includes(d.size)) walkSizesArr.push(d.size)
+      })
+      const walkSizes = walkSizesArr.join(', ')
       addons.push(`${walkDoors.length} walk door${walkDoors.length > 1 ? 's' : ''} (${walkSizes})`)
     }
+
     if (garageDoors.length > 0) {
-      const garageSizes = [...new Set(garageDoors.map((d) => d.size))].join(', ')
+      const garageSizesArr: string[] = []
+      garageDoors.forEach(d => {
+        if (!garageSizesArr.includes(d.size)) garageSizesArr.push(d.size)
+      })
+      const garageSizes = garageSizesArr.join(', ')
       addons.push(`${garageDoors.length} garage door${garageDoors.length > 1 ? 's' : ''} (${garageSizes})`)
     }
+
     if (sprayFoam) addons.push('spray foam (1" closed cell on whole building)')
     if (addons.length > 0) note += ' Includes ' + addons.join(' and ') + '.'
     setQuote(formatCurrency(total))
